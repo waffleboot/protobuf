@@ -12,10 +12,20 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: configure
-      run:  ./autogen.sh && ./configure
+      run:  ./autogen.sh && ./configure --prefix='${{ github.workspace }}/build'
     - name: make
       run:  make
-    - name: check
-      run:  make check
+    # - name: check
+    #   run:  make check
     - name: install
       run:  make install
+    - name: docker
+      uses: elgohr/Publish-Docker-Github-Action@master
+      with:
+        name: yangand/protobuf
+        username: ${{ secrets.DOCKER_USERNAME }}
+        password: ${{ secrets.DOCKER_PASSWORD }}
+        registry: registry.hub.docker.com
+        dockerfile: ${{ github.workspace }}/.github/workflows/Dockerfile
+        context: ${{ github.workspace }}/build
+        tags: latest
