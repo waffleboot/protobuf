@@ -12,7 +12,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: configure
-      run:  ./autogen.sh && ./configure --prefix='${{ github.workspace }}/build' CFLAGS='-g' CXXFLAGS='-g'
+      run:  ./autogen.sh && ./configure --prefix='${{ github.workspace }}/build' CFLAGS='-g -O0' CXXFLAGS='-g -O0'
     - name: make
       run:  make
     # - name: check
